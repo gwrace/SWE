@@ -44,7 +44,7 @@ PROJECT_NUMBER = "Abstraktionsschicht zur Ansteuerung eines SID"
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF = "GUNAWAN, TANUWIJAYA, SoSe 24"
+PROJECT_BRIEF = "GUNAWAN 1123113, TANUWIJAYA 1130154, WiSe 26/27"
 
 # With the PROJECT_LOGO tag one can specify a logo or an icon that is included
 # in the documentation. The maximum height of the logo should not exceed 55
