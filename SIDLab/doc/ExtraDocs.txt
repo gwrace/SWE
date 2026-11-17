@@ -11,7 +11,38 @@
 /*! \page lab_1 Labor 1
  * Vorbereitung
  * ------------
- * ...
+ * a) 3 Stimmen
+ *
+ * b) 28 Pins
+ *
+ * c) 29 Registers
+ *
+ * d) 5 Bits
+ *
+ * e) 8 Bits
+ *
+ * f) Triangle, Sawtooth, & Pulse
+ *
+ * g) LP (Tiefpass), BP (Bandpass), & HP (Hochpass)
+ *
+ * h) Register $18, Bit 0-3
+ *
+ * i) Attack: Wie schnell die Ausgangsamplitude einer Voice nach dem Setzen des Gate-Bits von 0 auf 
+ * 	die maximale Amplitude ansteigt
+ *
+ * 	Decay: Wie schnell die Amplitude danach von der maximalen Amplitude auf das gewählte Sustain-Niveau 
+ *	abfällt
+ *
+ * 	Sustain: Das Amplitudenniveau, auf dem die Ausgangsamplitude bleibt, solange das Gate-Bit gesetzt ist
+ *
+ * 	Release: Wie schnell die Amplitude nach dem Löschen des Gate-Bits vom aktuellen Niveau auf 0 abfällt
+ *
+ * j) Gate-Bit, Register 04 Bit 0
+ *
+ * k) Es beginnt erneut eine Attack-Phase, und zwar von der aktuellen Amplitude aus, nicht von 0
+ *
+ * l) RES = 1; A = 10111; D = 10010110; CS = 0; warte bis Φ2 abfällt; CS = 0
+ *	\image html timing_diagram.png
  *
  * Durchführung
  * ------------
@@ -24,10 +55,30 @@
  */
 
 /*! \page anforderungen Anforderungen
- *  | ID         | Anforderung                              | U, W? | Erläuterungen | F / NF | Testfunktionen (falls F) | Use Case (falls F)  |
- *  | ---------- | ---------------------------------------- | ----- | ------------- | ------ | ------------------------ | ------------------- |
- *  | A_Bsp_001  | Beispielanforderung, bitte LÖSCHEN!      |       | ...           | n. z.  | beispiel()               | Beispiel - Use Case |
- *
+ *  | ID           | Anforderung | U, W? | Erläuterungen | F / NF | Testfunktionen (falls F) | Use Case (falls F) |
+ *  |--------------|-------------|-------|---------------|--------|--------------------------|--------------------|
+ *  | A_Driver_001 | Die Driver-Klasse soll den Zugriff auf den SID vereinfachen und die Klasse SID als Abstraktionsschicht kapseln. |   | Nutzt die vorhandenen Funktionen writePin() und onCLK(). | F |  |  |
+ *  | A_Driver_002 | Die Driver-Klasse soll die Inhalte aller SID-Register auf der Konsole ausgeben können. |   | Hilft beim Debugging. | F |  |  |
+ *  | A_Driver_003 | Die Driver-Klasse soll Funktionen zum Festlegen der aktiven Wellenformen jeder Voice bereitstellen. |   |  | F |  |  |
+ *  | A_Driver_004 | Die Driver-Klasse soll Funktionen zum Konfigurieren der ADSR-Hüllkurve jeder Voice bereitstellen. |   |  | F |  |  |
+ *  | A_Driver_005 | Die Driver-Klasse soll Funktionen zum Einstellen von Filter und Lautstärke bereitstellen. |   |  | F |  |  |
+ *  | A_Driver_006 | Die Funktionen der Driver-Klasse sollen ihre Parameter in SI-Einheiten (Sekunden, Hertz, Prozent) statt als Bitmuster annehmen. | U | Prozent ist keine SI-Basiseinheit. Wertebereiche und Rundung auf die nächste Registerstufe sind nicht festgelegt. | F |  |  |
+ *  | A_Note_001   | Die Driver-Klasse soll die ADSR-Hüllkurve einer Voice starten und einen Ton halten können. |   | Wie das Drücken und Halten einer Klaviertaste. | F |  |  |
+ *  | A_Note_002   | Ein Ton soll für beliebige Dauer gehalten werden können. | U | Gibt es eine Maximaldauer? Wie wird die Dauer angegeben? | F |  |  |
+ *  | A_Note_003   | Die Driver-Klasse soll Töne über einen Notennamen (z. B. Cis, Es, Ges) statt über eine Frequenz abspielen können und den Namen selbst in Registerwerte umrechnen. | U | Oktavbereich und Schreibweise (Cis/C#, H/B) sind offen. Stimmung laut Handbuch: gleichstufig, A4 = 440 Hz. | F |  |  |
+ *  | A_Instr_001  | Ein Instrument soll Wellenformen, Filtereinstellungen und ADSR-Hüllkurve einer Voice bündeln und speichern können. |   | Wie Voreinstellungen. | F |  |  |
+ *  | A_Instr_002  | Die Driver-Klasse soll einen Ton mit einem Instrument abspielen können, ohne alle Parameter einzeln zu setzen. |   |  | F |  |  |
+ *  | A_Wav_001    | Die Driver-Klasse soll das gesamte vom SID erzeugte Audiosignal aufnehmen. |   |  | F |  |  |
+ *  | A_Wav_002    | Das aufgenommene Signal soll mit der Klasse Wav als .wav-Datei gespeichert werden können. |   |  | F |  |  |
+ *  | A_Track_001  | Das Programm soll eine Abfolge von Driver-Befehlen (Track) aus einer Datei laden und ausführen können, ohne neu kompiliert zu werden. |   | Dateiformat frei wählbar. | F |  |  |
+ *  | A_Track_002  | Das Projekt soll einen Beispiel-Track enthalten, der die gesamte Funktionalität demonstriert. |   |  | F |  |  |
+ *  | A_Test_001   | Das Programm darf bei beliebiger Reihenfolge und beliebigen Parametern der Funktionsaufrufe nicht abstürzen. |   | Robustheit. | NF |  |  |
+ *  | A_Test_002   | Der Code soll vollumfänglich getestet werden. | U | Was heißt "vollumfänglich"? Nur C0 oder mehr? | NF |  |  |
+ *  | A_Test_003   | Die Tests sollen mit einer C0-Coverage-Analyse ausgewertet werden. |   | Tool: swe_gcov. | NF |  |  |
+ *  | A_Style_001  | Der Code soll den C++-Coding-Styleguide des Kunden einhalten. | U | Nicht alle Punkte sind verpflichtend. Welche genau? | NF |  |  |
+ *  | A_Style_002  | Der Code soll den Stil der vorhandenen Codebasis fortsetzen, insbesondere die Namenskonventionen. |   |  | NF |  |  |
+ *  | A_Doc_001    | Der Code soll vollständig im Stil der vorhandenen Doxygen-Dokumentation dokumentiert sein. |   |  | NF |  |  |
+ *  | A_Proj_001   | Das fertige Produkt soll drei Monate nach dem Kundengespräch übergeben werden. |   | Ab heute (17.11.2026) wäre das der 17.02.2027. | NF |  |  |
  * - Die Anforderungen sind als *vollständige Sätze* zu formulieren.
  *   Schema: "[Subjekt oder Objekt] [soll/muss/darf etc.] [???] 
  *   [können/ermöglichen/verhindern etc.]

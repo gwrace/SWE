@@ -1,11 +1,12 @@
 var searchData=
 [
-  ['n_5fvoices_0',['N_VOICES',['../namespacesid__types.html#aae4be4c2f56dca9f2165078b451757fea8944d2dc47c63340eead2f5be2a867fb',1,'sid_types']]],
-  ['ncallssincelastchange_5f_1',['nCallsSinceLastChange_',['../classsid__types_1_1_noise.html#a425ca35a9b695491e310f31809a7d6b1',1,'sid_types::Noise']]],
-  ['ncs_2',['NCS',['../classsid__types_1_1_s_i_d.html#a31512a2d63fbbe28a77e73bd07aad9e0',1,'sid_types::SID']]],
-  ['noise_3',['noise',['../classsid__types_1_1_noise.html',1,'sid_types::Noise'],['../classsid__types_1_1_noise.html#a1df4eaefcc9d5d230aae40ca8282292b',1,'sid_types::Noise::Noise()'],['../namespacesid__types.html#a5c1a88270f656ffc96253d9ec17f7fedaf530b2d70b7b6293fc40c8a550e4ed42',1,'sid_types::NOISE']]],
-  ['noise_5f_4',['noise_',['../classsid__types_1_1_voice.html#a016c9a1e4b60eccf1af5019119fca8e6',1,'sid_types::Voice']]],
-  ['nres_5',['NRES',['../classsid__types_1_1_s_i_d.html#ac2b1b0284bfb959bd842c9db69742f22',1,'sid_types::SID']]],
-  ['nsamples_5f_6',['nsamples_',['../structsid__types_1_1_voice_1_1_attack.html#a06ca32facad8b717d14ddacdc5fc2763',1,'sid_types::Voice::Attack::nSamples_'],['../structsid__types_1_1_voice_1_1_decay.html#aa5f37c458c4194cee3c890cf099c474c',1,'sid_types::Voice::Decay::nSamples_'],['../structsid__types_1_1_voice_1_1_release.html#a585eefac83e8cf07e21e98ec5bb5ef18',1,'sid_types::Voice::Release::nSamples_']]],
-  ['ntaps_7',['NTAPS',['../classsid__types_1_1_filter.html#a2ef4461b7c161363044b41f8224c9617',1,'sid_types::Filter']]]
+  ['offs_5fnsamples_5f',['offs_nSamples_',['../structsid__types_1_1_voice_1_1_attack.html#a53db0589170a7804e4bf68b3d84ac088',1,'sid_types::Voice::Attack']]],
+  ['onclk',['onCLK',['../classsid__types_1_1_s_i_d.html#ad366065745d531ccf29733a6cb6cb4bc',1,'sid_types::SID']]],
+  ['onnres',['onNRES',['../classsid__types_1_1_s_i_d.html#ab218adae710e9a04984881b664efa756',1,'sid_types::SID']]],
+  ['onsample',['onSample',['../classsid__types_1_1_voice.html#a1645c81b900da82223bb219006e45bcd',1,'sid_types::Voice::onSample()'],['../classsid__types_1_1_waveform.html#ae19965bce7f4014d271fcc19c43a86bc',1,'sid_types::Waveform::onSample()'],['../classsid__types_1_1_triangle.html#a54297e641dda2d7c7564d2b6805b2db8',1,'sid_types::Triangle::onSample()'],['../classsid__types_1_1_sawtooth.html#a44543beb97cdee8fa0eba76c0d723d47',1,'sid_types::Sawtooth::onSample()'],['../classsid__types_1_1_pulse.html#a6af7eafd7993b1c73ffc5479c2a6fe4b',1,'sid_types::Pulse::onSample()'],['../classsid__types_1_1_noise.html#a44bc60927eb0f348f34516abaa42ab7a',1,'sid_types::Noise::onSample()']]],
+  ['operator_2b_2b',['operator++',['../namespacesid__types.html#aeeb31f4f875dd6f6d67765ef6d9a69f5',1,'sid_types::operator++(VoiceIdx &amp;a_orig)'],['../namespacesid__types.html#a34f40003dee260b8985bb7e5575d7510',1,'sid_types::operator++(VoiceIdx &amp;a_orig, int)']]],
+  ['operator_3d',['operator=',['../classsid__types_1_1_filter_bank.html#af3bedff3c653fd27f58b95db2b14a773',1,'sid_types::FilterBank::operator=()'],['../classsid__types_1_1_voice.html#a85a279e4c87ab511f261baf8494ef403',1,'sid_types::Voice::operator=()']]],
+  ['output',['output',['../classsid__types_1_1_voice.html#a7990674e15f75858fa00b6fcfbd99e0c',1,'sid_types::Voice']]],
+  ['output_5f',['output_',['../classsid__types_1_1_voice.html#a09c8f5f6f2f559b21ace68cc17c62e78',1,'sid_types::Voice']]],
+  ['outside',['OUTSIDE',['../classsid__types_1_1_voice.html#ab56532812bf2831789d11d1802d9a08ba93da25bafef6761717afc6b25c17ea16',1,'sid_types::Voice']]]
 ];

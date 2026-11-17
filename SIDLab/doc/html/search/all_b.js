@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['labor_201_0',['Labor 1',['../lab_1.html',1,'']]],
-  ['labor_20software_20engineering_3a_20dokumentation_1',['Labor Software Engineering: Dokumentation',['../index.html',1,'']]],
-  ['lastampl_5fs_5f_2',['lastampl_s_',['../structsid__types_1_1_voice_1_1_decay.html#a16b5971ea44701fb8eebbba5bb58aed5',1,'sid_types::Voice::Decay::lastAmpl_s_'],['../structsid__types_1_1_voice_1_1_release.html#aa90e5680e71276b6788e4aa0f0698e0a',1,'sid_types::Voice::Release::lastAmpl_s_']]],
-  ['level_5f_3',['level_',['../structsid__types_1_1_voice_1_1_sustain.html#ab4bf4755ef3ea13a5b7b9c94b411b153',1,'sid_types::Voice::Sustain']]],
-  ['logiclevel_4',['LogicLevel',['../namespacesid__types.html#a468a39686ef9dbfa290935c28e4a5478',1,'sid_types']]],
-  ['low_5',['LOW',['../sid__types_8h.html#ab811d8c6ff3a505312d3276590444289',1,'sid_types.h']]],
-  ['lp_6',['LP',['../namespacesid__types.html#a6b8d1469875a20dec54a0c6b07bc8be0a1d613bf60594672d79aeea61c357bc93',1,'sid_types']]],
-  ['lp_5f_7',['lp_',['../classsid__types_1_1_filter_bank.html#a7956d5e1ae231acc381c76aa5a06c2e3',1,'sid_types::FilterBank']]]
+  ['m_5fs_5f',['m_s_',['../structsid__types_1_1_voice_1_1_attack.html#a0cf8add201dfd04f37d6475d72e3d5d4',1,'sid_types::Voice::Attack::m_s_()'],['../structsid__types_1_1_voice_1_1_decay.html#af16092f1a8bc34ed06877f1f9dfccd43',1,'sid_types::Voice::Decay::m_s_()'],['../structsid__types_1_1_voice_1_1_release.html#ac735c68a365cc6c307e2b29216e789be',1,'sid_types::Voice::Release::m_s_()']]],
+  ['main',['main',['../main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main.cpp']]],
+  ['main_2ecpp',['main.cpp',['../main_8cpp.html',1,'']]],
+  ['mode_5fvol',['MODE_VOL',['../classsid__types_1_1_s_i_d.html#ae5a6f601d953ed315f1f00c17e89e796',1,'sid_types::SID']]]
 ];

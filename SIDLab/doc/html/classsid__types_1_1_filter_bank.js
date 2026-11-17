@@ -2,7 +2,7 @@ var classsid__types_1_1_filter_bank =
 [
     [ "FilterBank", "classsid__types_1_1_filter_bank.html#a52f5be89497e507fcba9f7e9a3e70c1d", null ],
     [ "FilterBank", "classsid__types_1_1_filter_bank.html#ac07a7acbf14ee77bf4b68d1f48f4b03e", null ],
-    [ "operator=", "classsid__types_1_1_filter_bank.html#a563bbd90db53548fe7c6cae27f0406a5", null ],
+    [ "operator=", "classsid__types_1_1_filter_bank.html#af3bedff3c653fd27f58b95db2b14a773", null ],
     [ "reset", "classsid__types_1_1_filter_bank.html#affe14e93aa621ac03cf730d853f1233c", null ],
     [ "sample", "classsid__types_1_1_filter_bank.html#ac9f3ff2e7d00667b494751ab84a19be5", null ],
     [ "setCutoffFreq", "classsid__types_1_1_filter_bank.html#a245b438bae700ed91940aade989dbefa", null ],

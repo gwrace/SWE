@@ -1,15 +1,10 @@
 var searchData=
 [
-  ['a_0',['A',['../classsid__types_1_1_s_i_d.html#afe842c2ba7ebe9ebb6cb5285eab4ff39',1,'sid_types::SID']]],
-  ['address_1',['Address',['../namespacesid__types.html#a0886388fe931f39f7d03a00a6c63b569',1,'sid_types']]],
-  ['adsr_2',['ADSR',['../classsid__types_1_1_voice.html#ab56532812bf2831789d11d1802d9a08b',1,'sid_types::Voice']]],
-  ['adsr_5fampl_5fs_5f_3',['adsr_ampl_s_',['../classsid__types_1_1_voice.html#a2936afeb820b056d3a645546644d4256',1,'sid_types::Voice']]],
-  ['adsr_5fstate_5f_4',['adsr_state_',['../classsid__types_1_1_voice.html#a46713e4718300af9ceeee5de5efea04f',1,'sid_types::Voice']]],
-  ['ampl_5fs_5f_5',['ampl_s_',['../structsid__types_1_1_voice_1_1_sustain.html#ad32153c99c253418349137ab046d5333',1,'sid_types::Voice::Sustain']]],
-  ['anforderungen_6',['Anforderungen',['../anforderungen.html',1,'']]],
-  ['applyfreqtoallwaveforms_7',['applyFreqToAllWaveforms',['../classsid__types_1_1_voice.html#a101caf20ce3a8cd5c01e67560482cc3d',1,'sid_types::Voice']]],
-  ['attack_8',['attack',['../structsid__types_1_1_voice_1_1_attack.html',1,'sid_types::Voice::Attack'],['../classsid__types_1_1_voice.html#ab56532812bf2831789d11d1802d9a08bac6ddd0f72ff2fd344693b9ca8d483871',1,'sid_types::Voice::ATTACK']]],
-  ['attack_5f_9',['attack_',['../classsid__types_1_1_voice.html#a36d3d8014e57ee23ceed74aa4c5e7602',1,'sid_types::Voice']]],
-  ['attacknsamples_5f_10',['attackNSamples_',['../classsid__types_1_1_voice.html#a30a7441a7be57c2219dc8b4e5027c275',1,'sid_types::Voice']]],
-  ['audio_5f_11',['audio_',['../classwav__files_1_1_wav.html#a9351929f0759f9d3c73f923c8fcb7e59',1,'wav_files::Wav']]]
+  ['b16',['b16',['../namespacesid__types.html#ac24a9b85183fcd5e0a5220f26111bd7e',1,'sid_types']]],
+  ['b8',['b8',['../namespacesid__types.html#add42a52478a5eeeb8476691873d50d4f',1,'sid_types']]],
+  ['b_5fs_5f',['b_s_',['../structsid__types_1_1_voice_1_1_decay.html#a0348bf686ddc01246be35c7169d2d37d',1,'sid_types::Voice::Decay::b_s_()'],['../structsid__types_1_1_voice_1_1_release.html#a6095344348a6df68677828c2e24834fc',1,'sid_types::Voice::Release::b_s_()']]],
+  ['begin_5fnsamples_5f',['begin_nSamples_',['../structsid__types_1_1_voice_1_1_attack.html#a9732366c5e732ea2b67edd6838a691e8',1,'sid_types::Voice::Attack::begin_nSamples_()'],['../structsid__types_1_1_voice_1_1_decay.html#a31fec6a654897a257ee01152468867ed',1,'sid_types::Voice::Decay::begin_nSamples_()'],['../structsid__types_1_1_voice_1_1_release.html#a90719af3120d047374fa80ba10c87743',1,'sid_types::Voice::Release::begin_nSamples_()']]],
+  ['bp',['BP',['../namespacesid__types.html#a6b8d1469875a20dec54a0c6b07bc8be0a253762948d8429a055f8a212055f6037',1,'sid_types']]],
+  ['bp_5f',['bp_',['../classsid__types_1_1_filter_bank.html#a9882a9323261faeb347b8be2f8d6816b',1,'sid_types::FilterBank']]],
+  ['bplp_5f',['bpLp_',['../classsid__types_1_1_filter_bank.html#a24f71a237613619b36453a879142778f',1,'sid_types::FilterBank']]]
 ];
