@@ -1,0 +1,132 @@
+/*! \mainpage Labor Software Engineering: Dokumentation
+ * \ref einstieg "Projektstruktur und Workflow"
+ *
+ * <a href="6581_Handbook.pdf" target="_blank"><b>Handbuch</b></a> des 
+ * MOS 6581 SID
+ *
+ * Doku der Klasse SID -> *sid_types::SID*
+ * \image html sid_nice.png
+ */
+
+/*! \page lab_1 Labor 1
+ * Vorbereitung
+ * ------------
+ * a) Der SID hat 3 Voices
+ 
+ b) Der SID hat 28 Pins
+ 
+ c) Der SID hat 29 Registers, davon sind 25 beschreibbar (writable) und 4 schreibgeschütz (read-only)
+ 
+ d) Eine SID-Registeradresse besteht aus 5 bits (A0 bis A4)
+ 
+ e) Ein SID-Registerinhalt besteht aus 8 bits (D0 bis D7)
+ 
+ f) Die 4 wählbaren Grundwellenformen sind Dreieck, Sägezahn, Rechteck (oder Puls) und Rauschen
+ 
+ g) Als Filterarten sind Tiefpass (LP), Bandpass (BP), Hochpass (HP) sowie eine Bandsperre bzw. ein Notch-Filter (durch die Kombination von LP und HP) wählbar
+ 
+ h) Das Register 24 (0x18) und bits 0 bis 3 bestimmen die Gesamtlautstärke
+ 
+ i) Die vier Werte beschreiben, wie die Lautstärke eines Tons über die Zeit verläuft, wie bei einer Klaviertaste.
+ Attack ist die Zeit, die der Ton nach dem Tastendruck braucht, um von Stille auf volle Lautstärke zu kommen.
+ Decay ist die Zeit, in der er danach auf den Haltepegel zurückfällt.
+ Sustain ist keine Zeit, sondern dieser Haltepegel selbst: Der Ton bleibt darauf, solange die Taste gedrückt ist.
+ Release ist die Zeit, die er nach dem Loslassen braucht, um auf null auszuklingen.
+ 
+ j) Die ADSR-Hüllkurve einer Voice wird mit dem Gate-Bit (Bit 0 im Control Register der Voice) gestartet
+ 
+ k)Wird während der Release-Phase das Gate-Bit erneut von 0 auf 1 gesetzt, bricht der SID die Release-Phase ab und beginnt einen neuen Attack-Zyklus. Dieser startet nicht bei null, sondern bei der Amplitude, die die Hüllkurve zu diesem Zeitpunkt gerade erreicht hat
+ 
+ l)
+ *
+ * Durchführung
+ * ------------
+ * ...
+ *
+ */
+
+/*! \page klassendiagramm Klassendiagramm
+ * \image html classes.png
+ */
+
+/*! \page anforderungen Anforderungen
+ *  | ID         | Anforderung                              | U, W? | Erläuterungen | F / NF | Testfunktionen (falls F) | Use Case (falls F)  |
+ *  | ---------- | ---------------------------------------- | ----- | ------------- | ------ | ------------------------ | ------------------- |
+ *  | A_Bsp_001  | Beispielanforderung, bitte LÖSCHEN!      |       | ...           | n. z.  | beispiel()               | Beispiel - Use Case |
+ *
+ * - Die Anforderungen sind als *vollständige Sätze* zu formulieren.
+ *   Schema: "[Subjekt oder Objekt] [soll/muss/darf etc.] [???] 
+ *   [können/ermöglichen/verhindern etc.]
+ *   Beispiel: "Der Wagen soll innerhalb von 20 Sekunden auf 100km/h 
+ *   beschleunigen können".
+ * - Funktionale Anforderungen müssen *testbar* sein.
+ * - Die Anforderungen sind sinnvoll *thematisch* zu *gruppieren*.
+ * - Bei unklaren Anforderungen ist "U" zu markieren, bei Widersprüchen "W". 
+ *   Nutzen Sie in diesen Fällen das Feld "Erläuterungen".
+ */
+
+/*! \page einstieg Projektstruktur und Workflow
+ *
+ * Erzeugen der Dokumentation
+ * ==========================
+ *
+ * + Aktivieren Sie in Eclipse unter 
+ *   *Window->Preferences->General->Workspace* die Option
+ *   *Refresh using native hooks or polling*, damit der Project Explorer
+ *   immer den aktuellen tatsächlichen aktuellen Ordnerinhalt anzeigt.
+ * + Passen Sie die Namen Ihrer Gruppenmitglieder an: Dafür im File 
+ *   *tools/generate_doc/doxygen/doxygen_config.Doxyfile* den Eintrag 
+ *   *PROJECT_BRIEF* ändern.
+ * + Stellen Sie sicher, dass alle Bilder und andere Ressourcen, auf die Sie in 
+ *   Ihrer Doku verweisen, 
+ *   im Ordner *doc* bereitliegen.
+ * + Starten Sie *tools/generate_doc/generate_doc.bat*. Dadurch wird die 
+ *   HTML-Dokumentation im Ordner *doc/html* erzeugt.
+ * + Der Link *Doku.html* führt Sie direkt dort hin.
+ *
+ * Ordnerstruktur
+ * ==============
+ *
+ * - **src** - Hier befindet sich der gesamte C++-Quellcode des Projekts.
+ *   + **sid** - Enthält die Implementierung der Simulation des SID
+ *   + **wav** - Enthält die Klasse Wav, mit der man aus dem SID-Audio-Output 
+ *               eine .wav-Datei zum Abspielen erzeugen kann
+ *
+ * - **Debug** - Hier legt Eclipse die aus dem Quellcode erstellte ausführbare 
+ *               Programmdatei rein (das "Build").
+ *
+ * - **doc** - Hier liegt Ihre Dokumentation. Bilder etc., auf die Sie in 
+ *             Doxygen-Kommentaren verweisen, hier reinlegen.
+ *   + **html** - Enthält die Doxygen-generierte HTML-Doku (siehe 
+ *                *generate_doc.bat*)
+ *
+ * - **tools** - Enthält verschiedene Tools, die im Labor verwendet werden
+ *   + **draw_io** - Erstellen von (UML-)Diagrammen
+ *   + **waview** - Anzeigen und Abspielen von .wav-Dateien
+ *   + **swe_gcov** - Generieren eines C0-Coverage-Reports aus gcov-Daten
+ *   + **generate_doc** - Tool zum Erstellen der Dokumentation
+ *     - **doxygen** - Enthält die Doxygen-Installation
+ *     - **generate_doc.bat** - Erzeugt mithilfe von Doxygen die Doku in 
+ *                              *doc/html*
+ *
+ * - **output** - Hier platziert SIDLab die im Rahmen der Programmausführung 
+ *                erzeugten WAV-Dateien (Audiodateien). 
+ *
+ * - **Doku.html** - Öffnet die Startseite der Doku.
+ *
+ * Linuxer
+ * =======
+ *
+ * **Folgendes ist nur wichtig, falls Sie unter Linux entwickeln:**
+ * - Zunächst *doxygen* installieren; Unter Debian/Ubuntu z. B. 
+ *   `sudo apt update`, dann `sudo apt install doxygen`.
+ * - Statt *generate_doc.bat* starten Sie *generate_doc_lnx.sh* aus einem 
+ *   Terminal heraus: `./generate_doc_lnx.sh`. Evtl. müssen Sie das Skript 
+ *   vorher ausführbar machen: `chmod +x ./generate_doc_lnx.sh`.
+ * - Statt *draw_io.exe* nutzen Sie *draw_io_lnx.AppImage*. Evtl. müssen Sie das 
+ *   Programm vorher ausführbar machen: `chmod +x ./draw_io_lnx.AppImage`.
+ * - Statt *swe_gcov.exe* nutzen Sie *swe_gcov_lnx*. Evtl. müssen Sie das 
+ *   Programm vorher ausführbar machen: `chmod +x ./swe_gcov_lnx`.
+ * - Für waview benötigen Sie wine: `sudo apt install wine`.
+ */
+ 

@@ -1,0 +1,89 @@
+digraph sid_types {
+  graph [rankdir=TB, nodesep=0.5, ranksep=0.9, fontname="Helvetica", splines=polyline];
+  node  [shape=plain, fontname="Helvetica", fontsize=10];
+  edge  [fontname="Helvetica", fontsize=10];
+
+  SID [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3">
+   <TR><TD BGCOLOR="#e8eef7"><B>SID</B></TD></TR>
+   <HR/>
+   <TR><TD ALIGN="LEFT" BALIGN="LEFT"><U>+ NRES : PinNumber</U><BR/><U>+ NCS : PinNumber</U><BR/><U>+ A : array&lt;PinNumber, 5&gt;</U><BR/><U>+ D : array&lt;PinNumber, 8&gt;</U><BR/><U>+ FC_LO : Address</U><BR/><U>+ FC_HI : Address</U><BR/><U>+ RES_FILT : Address</U><BR/><U>+ MODE_VOL : Address</U><BR/><U>+ V_FREQ_LO : map&lt;VoiceIdx, Address&gt;</U><BR/><U>+ V_FREQ_HI : map&lt;VoiceIdx, Address&gt;</U><BR/><U>+ V_PW_LO : map&lt;VoiceIdx, Address&gt;</U><BR/><U>+ V_PW_HI : map&lt;VoiceIdx, Address&gt;</U><BR/><U>+ V_ATTACK_DECAY : map&lt;VoiceIdx, Address&gt;</U><BR/><U>+ V_SUSTAIN_RELEASE : map&lt;VoiceIdx, Address&gt;</U><BR/><U>+ V_CONTROL : map&lt;VoiceIdx, Address&gt;</U></TD></TR>
+   <HR/>
+   <TR><TD ALIGN="LEFT" BALIGN="LEFT">+ SID()<BR/>+ ~SID()<BR/>+ onCLK() : float<BR/>+ writePin(a_pinNumber : PinNumber, a_value : LogicLevel) : void</TD></TR>
+  </TABLE>>];
+
+  Voice [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3">
+   <TR><TD BGCOLOR="#e8eef7"><B>Voice</B></TD></TR>
+   <HR/>
+   <TR><TD ALIGN="LEFT" BALIGN="LEFT"><U>+ attackNSamples_ : array&lt;u32, 16&gt;</U><BR/><U>+ decayReleaseNSamples_ : array&lt;u32, 16&gt;</U></TD></TR>
+   <HR/>
+   <TR><TD ALIGN="LEFT" BALIGN="LEFT">+ Voice()<BR/>+ onSample(a_sampleCtr : u64) : void<BR/>+ output() : i32<BR/>+ reset() : void<BR/>+ setControl(a_value : b8) : void<BR/>+ setFreqLo(a_value : b8) : void<BR/>+ setFreqHi(a_value : b8) : void<BR/>+ setPWLo(a_value : b8) : void<BR/>+ setPWHi(a_value : b8) : void<BR/>+ setAttackDecay(a_value : b8) : void<BR/>+ setSustainRelease(a_value : b8) : void</TD></TR>
+  </TABLE>>];
+
+  FilterBank [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3">
+   <TR><TD BGCOLOR="#e8eef7"><B>FilterBank</B></TD></TR>
+   <HR/>
+   <TR><TD ALIGN="LEFT" BALIGN="LEFT">+ FilterBank()<BR/>+ reset() : void<BR/>+ sample(a_sample : i32, a_lp : bool, a_bp : bool, a_hp : bool) : i32<BR/>+ setCutoffFreq(a_freq : float) : void</TD></TR>
+  </TABLE>>];
+
+  Filter [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3">
+   <TR><TD BGCOLOR="#e8eef7"><B>Filter</B></TD></TR>
+   <HR/>
+   <TR><TD ALIGN="LEFT" BALIGN="LEFT">+ Filter(a_type : FilterType)<BR/>+ reset() : void<BR/>+ setCutoffFreq(a_freq : float) : void<BR/>+ sample(a_sample : i32) : i32</TD></TR>
+  </TABLE>>];
+
+  Waveform [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3">
+   <TR><TD BGCOLOR="#e8eef7"><I><B>Waveform</B></I></TD></TR>
+   <HR/>
+   <TR><TD ALIGN="LEFT" BALIGN="LEFT">+ Waveform()<BR/>+ ~Waveform()<BR/>+ value() : u16<BR/>+ setFrequency(a_freq : u16) : void<BR/><I>+ onSample() : void</I><BR/><I>+ reset() : void</I></TD></TR>
+  </TABLE>>];
+
+  Triangle [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3">
+   <TR><TD BGCOLOR="#e8eef7"><B>Triangle</B></TD></TR>
+   <HR/>
+   <TR><TD ALIGN="LEFT" BALIGN="LEFT">+ Triangle()<BR/>+ onSample() : void<BR/>+ reset() : void</TD></TR>
+  </TABLE>>];
+
+  Sawtooth [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3">
+   <TR><TD BGCOLOR="#e8eef7"><B>Sawtooth</B></TD></TR>
+   <HR/>
+   <TR><TD ALIGN="LEFT" BALIGN="LEFT">+ Sawtooth()<BR/>+ onSample() : void<BR/>+ reset() : void</TD></TR>
+  </TABLE>>];
+
+  Pulse [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3">
+   <TR><TD BGCOLOR="#e8eef7"><B>Pulse</B></TD></TR>
+   <HR/>
+   <TR><TD ALIGN="LEFT" BALIGN="LEFT">+ Pulse()<BR/>+ setPulseWidth(a_pw : u16) : void<BR/>+ onSample() : void<BR/>+ reset() : void</TD></TR>
+  </TABLE>>];
+
+  Noise [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3">
+   <TR><TD BGCOLOR="#e8eef7"><B>Noise</B></TD></TR>
+   <HR/>
+   <TR><TD ALIGN="LEFT" BALIGN="LEFT">+ Noise()<BR/>+ onSample() : void<BR/>+ reset() : void</TD></TR>
+  </TABLE>>];
+
+  // Komposition: Raute am Ganzen, offener Pfeil zum Teil (Navigationsrichtung)
+  edge [dir=both, arrowtail=diamond, arrowhead=vee, labeldistance=2.5, labelangle=-30];
+  SID -> Voice      [taillabel="1", headlabel="3"];
+  SID -> FilterBank [taillabel="1", headlabel="3"];
+  FilterBank -> Filter [taillabel="1", headlabel="7"];
+  Voice -> Triangle [taillabel="1", headlabel="1"];
+  Voice -> Sawtooth [taillabel="1", headlabel="1"];
+  Voice -> Pulse    [taillabel="1", headlabel="1"];
+  Voice -> Noise    [taillabel="1", headlabel="1"];
+
+  // Vererbung
+  edge [dir=forward, arrowhead=empty, arrowtail=none, taillabel="", headlabel=""];
+  Triangle -> Waveform;
+  Sawtooth -> Waveform;
+  Pulse    -> Waveform;
+  Noise    -> Waveform;
+}

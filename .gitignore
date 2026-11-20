@@ -3,3 +3,6 @@
 *.class
 SIDLab/tools/draw_io/draw_io.exe
 SIDLab/tools/draw_io/draw_io_lnx.AppImage
+SIDLab_Durchfuehrung/tools/draw_io/draw_io.exe
+SIDLab_Durchfuehrung/tools/draw_io/draw_io_lnx.AppImage
+SIDLab_Durchfuehrung/Debug/
