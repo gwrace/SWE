@@ -148,7 +148,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Testet Command und <a class="el" href="namespacesid__driver.html#a31de54315109d5fb63c6ccb4507ec451" title="Execute : Ausführen einen Befehl auf dem übergebenen SID. ">execute()</a>: Voice 1 uspielt einen Dreieckston mit 440 Hz und ASDR Hüllkurve, das Audiosignal wird als .wav gespeichert. </p>
+<p>Testet Command und <a class="el" href="namespacesid__driver.html#a31de54315109d5fb63c6ccb4507ec451" title="Execute : Ausführen einen Befehl auf dem übergebenen SID. ">execute()</a>: Voice 1 spielt einen Dreieckston mit 440 Hz und ASDR Hüllkurve, das Audiosignal wird als .wav gespeichert.</p><ul>
+<li>Getestete Anforderungen: A_Driver_003, A_Driver_004, A_Note_001, A_Wav_002</li>
+<li>Erwartetes Verhalten:</li>
+<li>Datei mit 3s Länge erzeugt und geöffnet</li>
+<li>Wellenform Dreieck mit ca 440 Hz</li>
+<li>Attack: Amplitude steigt in 0,5 s linear auf das Maximum</li>
+<li>Decay: Amplitude fällt in ca. 0,3 s auf das Sustain-Level (8/15, ca. 53 %)</li>
+<li>Sustain: Amplitude bleibt bis t = 1 s konstant</li>
+<li>Release: Nach GATE = 0 klingt der Ton in ca. 1,5 s ab, danach bis t = 3 s Stille </li>
+</ul>
 
 <p class="definition">Definition at line <a class="el" href="tests_8cpp_source.html#l00029">29</a> of file <a class="el" href="tests_8cpp_source.html">tests.cpp</a>.</p>
 
@@ -161,7 +170,7 @@ Functions</h2></td></tr>
 			<ul>
 				<li class="navelem"><a class="el" href="namespacetests.html">tests</a></li>
 				<li class="footer">
-					Generated on Sat Nov 21 2026 23:22:05 for SIDLab by <a href="http://www.doxygen.org/index.html">
+					Generated on Sun Nov 22 2026 00:33:58 for SIDLab by <a href="http://www.doxygen.org/index.html">
 					<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14.
 					Dark theme by <a href="http://majerle.eu" target="_new">Tilen Majerle</a>. All rights reserved.
 				</li>

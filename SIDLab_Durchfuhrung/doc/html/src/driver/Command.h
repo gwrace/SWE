@@ -21,7 +21,7 @@ namespace sid_driver
 	{
 
 		const sid_types::Address address_; /*!< Registeradresse (5 bits) höchstens SID::MODE_VOL */
-		const sid_types::b8 data_; /*!< Datentype, das ins Register geschrieben wird */
+		const sid_types::b8 data_; /*!< Datenbyte, das ins Register geschrieben wird */
 
 		//! Konstruktor
 		/*! Adressen größer als MODE_VOL werden auf MODE_VOL begrenzt
@@ -35,7 +35,7 @@ namespace sid_driver
 	//! Execute : Ausführen einen Befehl auf dem übergebenen SID
 	/*! \param a_sid Pointer auf SID, der den Befehl ausführen soll
 	 * \param a_cmd Der auszuführende Befehl
-	 * \return Der während des Taktzyklus erzeugte Wert des Ausiosignals am Pin AUDIO_OUT, in dem Bereich -1.0 bis +1.0
+	 * \return Der während des Taktzyklus erzeugte Wert des Audiosignals am Pin AUDIO_OUT, in dem Bereich -1.0 bis +1.0
 	 */
 	float execute(sid_types::SID* a_sid, Command a_cmd);
 }
