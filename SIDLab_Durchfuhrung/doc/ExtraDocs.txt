@@ -1,0 +1,172 @@
+/*! \mainpage Labor Software Engineering: Dokumentation
+ * \ref einstieg "Projektstruktur und Workflow"
+ *
+ * <a href="6581_Handbook.pdf" target="_blank"><b>Handbuch</b></a> des 
+ * MOS 6581 SID
+ *
+ * Doku der Klasse SID -> *sid_types::SID*
+ * \image html sid_nice.png
+ */
+
+/*! \page lab_1 Labor 1
+ * Vorbereitung
+ * ------------
+ a) Der SID hat 3 Voices
+ 
+ b) Der SID hat 28 Pins
+ 
+ c) Der SID hat 29 Registers, davon sind 25 beschreibbar (writable) und 4 schreibgeschütz (read-only)
+ 
+ d) Eine SID-Registeradresse besteht aus 5 bits (A0 bis A4)
+ 
+ e) Ein SID-Registerinhalt besteht aus 8 bits (D0 bis D7)
+ 
+ f) Die 4 wählbaren Grundwellenformen sind Dreieck, Sägezahn, Rechteck (oder Puls) und Rauschen
+ 
+ g) Als Filterarten sind Tiefpass (LP), Bandpass (BP), Hochpass (HP) sowie eine Bandsperre bzw. ein Notch-Filter (durch die Kombination von LP und HP) wählbar
+ 
+ h) Das Register 24 (0x18) und bits 0 bis 3 bestimmen die Gesamtlautstärke
+ 
+ i) Die vier Werte beschreiben, wie die Lautstärke eines Tons über die Zeit verläuft, wie bei einer Klaviertaste.
+ Attack ist die Zeit, die der Ton nach dem Tastendruck braucht, um von Stille auf volle Lautstärke zu kommen.
+ Decay ist die Zeit, in der er danach auf den Haltepegel zurückfällt.
+ Sustain ist keine Zeit, sondern dieser Haltepegel selbst: Der Ton bleibt darauf, solange die Taste gedrückt ist.
+ Release ist die Zeit, die er nach dem Loslassen braucht, um auf null auszuklingen.
+ 
+ j) Die ADSR-Hüllkurve einer Voice wird mit dem Gate-Bit (Bit 0 im Control Register der Voice) gestartet
+ 
+ k) Wird während der Release-Phase das Gate-Bit erneut von 0 auf 1 gesetzt, bricht der SID die Release-Phase ab und beginnt einen neuen Attack-Zyklus. Dieser startet nicht bei null, sondern bei der Amplitude, die die Hüllkurve zu diesem Zeitpunkt gerade erreicht hat
+ 
+ 
+ * l) RES = 1; A = 10111; D = 10010110; CS = 0; warte bis Φ2 abfällt; CS = 0
+ *	\image html timing_diagram.png
+ *
+ * Durchführung
+ * ------------
+ * 1a) Freie Funktionen und globale Variablen sind keine gute Idee: 
+ - Jeder Code kann die Reistertabelle direkt ändern, sie kann dadurch asynchron zum echten SID werden
+ - Es gibt den Zustand nur einmal global, man kann also nur einen einzigen SID ansteuern
+ - Globale Namen können mit Namen aus anderen Modulen kollidieren
+ - Schwer testbar, weil der Zustand zwischen Tests erhalten bleibt
+ - Die Initialisierung der Daten ist nicht garantiert
+ 
+ 1b) Der Namespace verhindert Namenskollisionen mit anderen Modulen. Aber Funktionen und Tabelle sind trotzdem von überall aus änderbar.
+ 
+ 1c) Unsere Vorschlag wäre eine Klasse im namespace sid_driver vor. Die Reistertabelle und die internen Hilfsfunktionen kommen in den Private-Teil und in der Public-Teil kommt nur die Funktionen, die der Nutzer wirklich braucht.
+ Jede Objekte hat seine eigene Tabelle, damit kann man auch mehrere SIDs ansteuern. Der Konstruktor sorgt dafür, dass die Tabelle von Anfang an initialisiert ist. Und weil nur die Klasse selbst die Tabelle ändern kann, bleibt die Synchronisierung zum SID. Der Treiber ist aber auch im Sinne von "easy to use correctly, hard to use incorrectly" schwer falsch zu benutzen
+ 
+ 2b) Es gibt nur 24 beschreibbare Registers von SID, MODE_VOL (0x18) als allerletzte Register. 
+ Hinten der Bit MODE_VOL ist nur ein read-only Register. Durch die Zusicherung schütz auch die Registertabelle des Treibers, in die sonst über ihr Ende hinaus geschrieben werden könnte.
+ 
+ 3b) Der SID speichert intern seinen Zustand (Registerinhalte, Oscillatoren, Hüllkurven ). 
+ Würde man ihn als Kopie übergeben, würde execute() und Befehl nur auf der Kopie ausführen. 
+ Die Kopie verschwindet am Ende der Funktion wieder, und der eigentliche SID hat vom Befehl nichts bekommen.
+ 
+ *
+ */
+
+/*! \page klassendiagramm Klassendiagramm
+ * \image html classes.png
+ */
+
+/*! \page anforderungen Anforderungen
+ *  | ID           | Anforderung | U, W? | Erläuterungen | F / NF | Testfunktionen (falls F) | Use Case (falls F) |
+ *  |--------------|-------------|-------|---------------|--------|--------------------------|--------------------|
+ *  | A_Driver_001 | Die Driver-Klasse soll den Zugriff auf den SID vereinfachen und die Klasse SID als Abstraktionsschicht kapseln. |   | Nutzt die vorhandenen Funktionen writePin() und onCLK(). | F |  |  |
+ *  | A_Driver_002 | Die Driver-Klasse soll die Inhalte aller SID-Register auf der Konsole ausgeben können. |   | Hilft beim Debugging. | F |  |  |
+ *  | A_Driver_003 | Die Driver-Klasse soll Funktionen zum Festlegen der aktiven Wellenformen jeder Voice bereitstellen. |   |  | F |  |  |
+ *  | A_Driver_004 | Die Driver-Klasse soll Funktionen zum Konfigurieren der ADSR-Hüllkurve jeder Voice bereitstellen. |   |  | F |  |  |
+ *  | A_Driver_005 | Die Driver-Klasse soll Funktionen zum Einstellen von Filter und Lautstärke bereitstellen. |   |  | F |  |  |
+ *  | A_Driver_006 | Die Funktionen der Driver-Klasse sollen ihre Parameter in SI-Einheiten (Sekunden, Hertz, Prozent) statt als Bitmuster annehmen. | U | Prozent ist keine SI-Basiseinheit. Wertebereiche und Rundung auf die nächste Registerstufe sind nicht festgelegt. | F |  |  |
+ *  | A_Note_001   | Die Driver-Klasse soll die ADSR-Hüllkurve einer Voice starten und einen Ton halten können. |   | Wie das Drücken und Halten einer Klaviertaste. | F |  |  |
+ *  | A_Note_002   | Ein Ton soll für beliebige Dauer gehalten werden können. | U | Gibt es eine Maximaldauer? Wie wird die Dauer angegeben? | F |  |  |
+ *  | A_Note_003   | Die Driver-Klasse soll Töne über einen Notennamen (z. B. Cis, Es, Ges) statt über eine Frequenz abspielen können und den Namen selbst in Registerwerte umrechnen. | U | Oktavbereich und Schreibweise (Cis/C#, H/B) sind offen. Stimmung laut Handbuch: gleichstufig, A4 = 440 Hz. | F |  |  |
+ *  | A_Instr_001  | Ein Instrument soll Wellenformen, Filtereinstellungen und ADSR-Hüllkurve einer Voice bündeln und speichern können. |   | Wie Voreinstellungen. | F |  |  |
+ *  | A_Instr_002  | Die Driver-Klasse soll einen Ton mit einem Instrument abspielen können, ohne alle Parameter einzeln zu setzen. |   |  | F |  |  |
+ *  | A_Wav_001    | Die Driver-Klasse soll das gesamte vom SID erzeugte Audiosignal aufnehmen. |   |  | F |  |  |
+ *  | A_Wav_002    | Das aufgenommene Signal soll mit der Klasse Wav als .wav-Datei gespeichert werden können. |   |  | F |  |  |
+ *  | A_Track_001  | Das Programm soll eine Abfolge von Driver-Befehlen (Track) aus einer Datei laden und ausführen können, ohne neu kompiliert zu werden. |   | Dateiformat frei wählbar. | F |  |  |
+ *  | A_Track_002  | Das Projekt soll einen Beispiel-Track enthalten, der die gesamte Funktionalität demonstriert. |   |  | F |  |  |
+ *  | A_Test_001   | Das Programm darf bei beliebiger Reihenfolge und beliebigen Parametern der Funktionsaufrufe nicht abstürzen. |   | Robustheit. | NF |  |  |
+ *  | A_Test_002   | Der Code soll vollumfänglich getestet werden. | U | Was heißt "vollumfänglich"? Nur C0 oder mehr? | NF |  |  |
+ *  | A_Test_003   | Die Tests sollen mit einer C0-Coverage-Analyse ausgewertet werden. |   | Tool: swe_gcov. | NF |  |  |
+ *  | A_Style_001  | Der Code soll den C++-Coding-Styleguide des Kunden einhalten. | U | Nicht alle Punkte sind verpflichtend. Welche genau? | NF |  |  |
+ *  | A_Style_002  | Der Code soll den Stil der vorhandenen Codebasis fortsetzen, insbesondere die Namenskonventionen. |   |  | NF |  |  |
+ *  | A_Doc_001    | Der Code soll vollständig im Stil der vorhandenen Doxygen-Dokumentation dokumentiert sein. |   |  | NF |  |  |
+ *  | A_Proj_001   | Das fertige Produkt soll drei Monate nach dem Kundengespräch übergeben werden. |   | Ab heute (17.11.2026) wäre das der 17.02.2027. | NF |  |  |
+ * - Die Anforderungen sind als *vollständige Sätze* zu formulieren.
+ *   Schema: "[Subjekt oder Objekt] [soll/muss/darf etc.] [???] 
+ *   [können/ermöglichen/verhindern etc.]
+ *   Beispiel: "Der Wagen soll innerhalb von 20 Sekunden auf 100km/h 
+ *   beschleunigen können".
+ * - Funktionale Anforderungen müssen *testbar* sein.
+ * - Die Anforderungen sind sinnvoll *thematisch* zu *gruppieren*.
+ * - Bei unklaren Anforderungen ist "U" zu markieren, bei Widersprüchen "W". 
+ *   Nutzen Sie in diesen Fällen das Feld "Erläuterungen".
+ */
+
+/*! \page einstieg Projektstruktur und Workflow
+ *
+ * Erzeugen der Dokumentation
+ * ==========================
+ *
+ * + Aktivieren Sie in Eclipse unter 
+ *   *Window->Preferences->General->Workspace* die Option
+ *   *Refresh using native hooks or polling*, damit der Project Explorer
+ *   immer den aktuellen tatsächlichen aktuellen Ordnerinhalt anzeigt.
+ * + Passen Sie die Namen Ihrer Gruppenmitglieder an: Dafür im File 
+ *   *tools/generate_doc/doxygen/doxygen_config.Doxyfile* den Eintrag 
+ *   *PROJECT_BRIEF* ändern.
+ * + Stellen Sie sicher, dass alle Bilder und andere Ressourcen, auf die Sie in 
+ *   Ihrer Doku verweisen, 
+ *   im Ordner *doc* bereitliegen.
+ * + Starten Sie *tools/generate_doc/generate_doc.bat*. Dadurch wird die 
+ *   HTML-Dokumentation im Ordner *doc/html* erzeugt.
+ * + Der Link *Doku.html* führt Sie direkt dort hin.
+ *
+ * Ordnerstruktur
+ * ==============
+ *
+ * - **src** - Hier befindet sich der gesamte C++-Quellcode des Projekts.
+ *   + **sid** - Enthält die Implementierung der Simulation des SID
+ *   + **wav** - Enthält die Klasse Wav, mit der man aus dem SID-Audio-Output 
+ *               eine .wav-Datei zum Abspielen erzeugen kann
+ *
+ * - **Debug** - Hier legt Eclipse die aus dem Quellcode erstellte ausführbare 
+ *               Programmdatei rein (das "Build").
+ *
+ * - **doc** - Hier liegt Ihre Dokumentation. Bilder etc., auf die Sie in 
+ *             Doxygen-Kommentaren verweisen, hier reinlegen.
+ *   + **html** - Enthält die Doxygen-generierte HTML-Doku (siehe 
+ *                *generate_doc.bat*)
+ *
+ * - **tools** - Enthält verschiedene Tools, die im Labor verwendet werden
+ *   + **draw_io** - Erstellen von (UML-)Diagrammen
+ *   + **waview** - Anzeigen und Abspielen von .wav-Dateien
+ *   + **swe_gcov** - Generieren eines C0-Coverage-Reports aus gcov-Daten
+ *   + **generate_doc** - Tool zum Erstellen der Dokumentation
+ *     - **doxygen** - Enthält die Doxygen-Installation
+ *     - **generate_doc.bat** - Erzeugt mithilfe von Doxygen die Doku in 
+ *                              *doc/html*
+ *
+ * - **output** - Hier platziert SIDLab die im Rahmen der Programmausführung 
+ *                erzeugten WAV-Dateien (Audiodateien). 
+ *
+ * - **Doku.html** - Öffnet die Startseite der Doku.
+ *
+ * Linuxer
+ * =======
+ *
+ * **Folgendes ist nur wichtig, falls Sie unter Linux entwickeln:**
+ * - Zunächst *doxygen* installieren; Unter Debian/Ubuntu z. B. 
+ *   `sudo apt update`, dann `sudo apt install doxygen`.
+ * - Statt *generate_doc.bat* starten Sie *generate_doc_lnx.sh* aus einem 
+ *   Terminal heraus: `./generate_doc_lnx.sh`. Evtl. müssen Sie das Skript 
+ *   vorher ausführbar machen: `chmod +x ./generate_doc_lnx.sh`.
+ * - Statt *draw_io.exe* nutzen Sie *draw_io_lnx.AppImage*. Evtl. müssen Sie das 
+ *   Programm vorher ausführbar machen: `chmod +x ./draw_io_lnx.AppImage`.
+ * - Statt *swe_gcov.exe* nutzen Sie *swe_gcov_lnx*. Evtl. müssen Sie das 
+ *   Programm vorher ausführbar machen: `chmod +x ./swe_gcov_lnx`.
+ * - Für waview benötigen Sie wine: `sudo apt install wine`.
+ */
+ 
