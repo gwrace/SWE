@@ -10,7 +10,7 @@
 
 
 #include "sid/SID.h"
-
+#include "driver/Command.h"
 
 //! Contains all the testing functions
 namespace tests
@@ -21,6 +21,7 @@ namespace tests
      * + Erwartetes Verhalten: ...
      */
     void instantiateSID();
+    void playNote();
 
 }  // namespace tests
 

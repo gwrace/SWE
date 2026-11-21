@@ -121,14 +121,23 @@ $(document).ready(function(){initNavTree('lab_1.html','');});
 <p>1b) Der Namespace verhindert Namenskollisionen mit anderen Modulen. Aber Funktionen und Tabelle sind trotzdem von überall aus änderbar.</p>
 <p>1c) Unsere Vorschlag wäre eine Klasse im namespace <a class="el" href="namespacesid__driver.html" title="Treiber zur vereinfachten Ansteuerung des SID. ">sid_driver</a> vor. Die Reistertabelle und die internen Hilfsfunktionen kommen in den Private-Teil und in der Public-Teil kommt nur die Funktionen, die der Nutzer wirklich braucht. Jede Objekte hat seine eigene Tabelle, damit kann man auch mehrere SIDs ansteuern. Der Konstruktor sorgt dafür, dass die Tabelle von Anfang an initialisiert ist. Und weil nur die Klasse selbst die Tabelle ändern kann, bleibt die Synchronisierung zum SID. Der Treiber ist aber auch im Sinne von "easy to use correctly, hard to use incorrectly" schwer falsch zu benutzen</p>
 <p>2b) Es gibt nur 24 beschreibbare Registers von SID, MODE_VOL (0x18) als allerletzte Register. Hinten der Bit MODE_VOL ist nur ein read-only Register. Durch die Zusicherung schütz auch die Registertabelle des Treibers, in die sonst über ihr Ende hinaus geschrieben werden könnte.</p>
-<p>3b) Der SID speichert intern seinen Zustand (Registerinhalte, Oscillatoren, Hüllkurven ). Würde man ihn als Kopie übergeben, würde execute() und Befehl nur auf der Kopie ausführen. Die Kopie verschwindet am Ende der Funktion wieder, und der eigentliche SID hat vom Befehl nichts bekommen. </p>
+<p>3b) Der SID speichert intern seinen Zustand (Registerinhalte, Oscillatoren, Hüllkurven ). Würde man ihn als Kopie übergeben, würde execute() und Befehl nur auf der Kopie ausführen. Die Kopie verschwindet am Ende der Funktion wieder, und der eigentliche SID hat vom Befehl nichts bekommen.</p>
+<p>4) Testfunktion <a class="el" href="namespacetests.html#ab3e445d702d9695c4b3fd9e694497d78">tests::playNote()</a>: Voice 1 spielt einen Dreieckton mit 440 Hz (FREQ = 7382 = 0x1CD6, ATTACK_DECAY = 0xA8, SUSTAIN_RELEASE = 0x8A, CONTROL = 0b00010001). Das GATE-Bit bleibt 1 s gesetzt, danach wird es für 2 s gelöscht. Soll: Attack 0,5 s, Decay 0,3 s, Sustain-Pegel 50 % (nächste Stufe: 8/15 = 53,3 %), Release 1,5 s.</p>
+<div class="image">
+<img src="playNote_overview.png" alt="playNote_overview.png"/>
+</div>
+<p> Aus dem Bild (Marker in der Waveform) lesen wir ab: Die Attack-Phase dauert ca. 0,501 s (Soll 0,5 s). Die Decay-Phase dauert 0,791 - 0,501 = 0,290 s (Soll 0,3 s). Die Sustain-Phase dauert 1,025 - 0,791 = 0,234 s (Soll 0,2 s, der Marker liegt etwas hinter dem Ende des Plateaus, das GATE wird bei 1,0 s gelöscht). Die Release-Phase dauert 2,499 - 1,025 = 1,474 s (Soll 1,5 s, wegen desselben Markers). Decay und Release zusammen: 2,499 - 0,791 = 1,708 s (Soll 1,7 s). Die maximale Amplitude beträgt 0,332 (Soll 1/3, weil der Ausgang durch die 3 Voices geteilt wird). Der Sustain-Pegel beträgt 0,183, also 0,183/0,332 = 55 % des Maximums (Soll 8/15 = 53,3 %; 50 % sind mit 4 Bit nicht darstellbar). Die Flanken sind linear. Der echte SID verwendet exponentielle Verläufe.</p>
+<div class="image">
+<img src="playNote_zoom.png" alt="playNote_zoom.png"/>
+</div>
+<p> Im vergrößerten Bild (Release-Phase) erkennt man gerade Flanken und spitze Maxima, die Waveform ist also ein Dreieck. Zwischen den Markern bei 1,484 s und 1,493 s (genauer: Sample 65441 und 65845, also 9,16 ms) liegen 4 Perioden. Die Periodendauer beträgt damit 9,16 ms / 4 = 2,29 ms, die Frequenz 1 / 2,29 ms = ca. 437 Hz (Soll 440 Hz, Periode 2,27 ms). Die Abweichung liegt an der Markersetzung und am ganzzahligen Samplerraster. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 		<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
 			<ul>
 				<li class="footer">
-					Generated on Sat Nov 21 2026 00:57:55 for SIDLab by <a href="http://www.doxygen.org/index.html">
+					Generated on Sat Nov 21 2026 15:32:17 for SIDLab by <a href="http://www.doxygen.org/index.html">
 					<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14.
 					Dark theme by <a href="http://majerle.eu" target="_new">Tilen Majerle</a>. All rights reserved.
 				</li>
