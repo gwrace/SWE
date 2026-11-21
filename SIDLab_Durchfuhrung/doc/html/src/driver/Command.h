@@ -1,8 +1,7 @@
-/*
- * Command.h
- *
- *  Created on: 19.11.2026
- *      Author: stketanuw
+/*! \file
+ * \brief     SID driver command
+ * \author    stketanuw
+ * \date      19.11.2026
  */
 
 #ifndef DRIVER_COMMAND_H_
@@ -11,6 +10,8 @@
 #include "../sid/sid_types.h"
 #include "../sid/SID.h"
 #include <algorithm>
+
+
 
 //! Treiber zur vereinfachten Ansteuerung des SID
 namespace sid_driver

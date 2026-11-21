@@ -1,8 +1,9 @@
-/*
- * Command.cpp
- * *  Created on: 19.11.2026
- *      Author: stketanuw
+/*! \file
+ * \brief     SID driver command implementation
+ * \author    stketanuw
+ * \date      19.11.2026
  */
+
 
 #include "Command.h"
 
